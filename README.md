@@ -40,6 +40,16 @@ shadrac-weds-danusha/
 
 ---
 
+## Background Music
+
+Place a file named **`music.mp3`** in the project root. It will start playing automatically when the curtains open (at a soft volume of 35%), and guests can toggle it on/off with the floating ♫ button in the bottom-right corner.
+
+> Any royalty-free romantic instrumental works well — try searching *"wedding background music royalty free mp3"* on sites like [Pixabay](https://pixabay.com/music/) or [Free Music Archive](https://freemusicarchive.org/).
+
+The audio element is silent if `music.mp3` is missing, so the site works without it too.
+
+---
+
 ## Deployment (GitHub Pages)
 
 1. Push all files to the `main` branch.

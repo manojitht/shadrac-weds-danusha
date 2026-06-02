@@ -1,3 +1,26 @@
+/* ── Music ────────────────────────────────────── */
+const bgMusic    = document.getElementById('bg-music');
+const musicBtn   = document.getElementById('music-btn');
+
+function startMusic() {
+  bgMusic.volume = 0.35;
+  bgMusic.play().catch(() => {});   // silently ignore if no file / blocked
+  musicBtn.style.display = 'flex';
+  musicBtn.classList.add('playing');
+}
+
+musicBtn.addEventListener('click', () => {
+  if (bgMusic.paused) {
+    bgMusic.play();
+    musicBtn.classList.replace('paused', 'playing');
+    musicBtn.setAttribute('aria-label', 'Pause background music');
+  } else {
+    bgMusic.pause();
+    musicBtn.classList.replace('playing', 'paused');
+    musicBtn.setAttribute('aria-label', 'Play background music');
+  }
+});
+
 /* ── Curtain open ─────────────────────────────── */
 function openCurtains() {
   const overlay = document.getElementById('curtain-overlay');
@@ -9,6 +32,7 @@ function openCurtains() {
     document.getElementById('invitation').classList.add('visible');
     startPetals();
     observeReveal();
+    startMusic();
   }, 1700);
 }
 
