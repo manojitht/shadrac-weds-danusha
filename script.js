@@ -33,6 +33,7 @@ function openCurtains() {
     startPetals();
     observeReveal();
     startMusic();
+    checkExistingRSVP();
   }, 1700);
 }
 
@@ -101,6 +102,16 @@ function startPetals() {
   setInterval(mkPetal, 900);
 }
 
+/* ── RSVP duplicate guard ─────────────────────── */
+function checkExistingRSVP() {
+  if (localStorage.getItem('rsvp_submitted') === 'true') {
+    document.getElementById('rsvp-form').hidden = true;
+    const success = document.getElementById('rsvp-success');
+    success.hidden = false;
+    success.classList.add('visible');
+  }
+}
+
 /* ── RSVP Form (Formspree) ────────────────────── */
 const FORMSPREE_URL = 'https://formspree.io/f/mjgdvpjv';
 
@@ -133,6 +144,7 @@ document.getElementById('rsvp-form').addEventListener('submit', async function (
     });
 
     if (res.ok) {
+      localStorage.setItem('rsvp_submitted', 'true');
       form.style.transition = 'opacity 0.4s ease';
       form.style.opacity = '0';
       setTimeout(() => {
