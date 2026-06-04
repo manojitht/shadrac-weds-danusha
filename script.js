@@ -101,6 +101,57 @@ function startPetals() {
   setInterval(mkPetal, 900);
 }
 
+/* ── RSVP Form (Formspree) ────────────────────── */
+const FORMSPREE_URL = 'https://formspree.io/f/mjgdvpjv';
+
+document.getElementById('rsvp-form').addEventListener('submit', async function (e) {
+  e.preventDefault();
+
+  const form   = this;
+  const btn    = document.getElementById('rsvp-submit');
+  const error  = document.getElementById('rsvp-error');
+  const success = document.getElementById('rsvp-success');
+
+  // Basic validation
+  const name = form.querySelector('#rsvp-name').value.trim();
+  const guests = form.querySelector('#rsvp-guests').value;
+  if (!name || !guests) {
+    form.querySelector('#rsvp-name').reportValidity();
+    form.querySelector('#rsvp-guests').reportValidity();
+    return;
+  }
+
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+  error.hidden = true;
+
+  try {
+    const res = await fetch(FORMSPREE_URL, {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: new FormData(form),
+    });
+
+    if (res.ok) {
+      form.style.transition = 'opacity 0.4s ease';
+      form.style.opacity = '0';
+      setTimeout(() => {
+        form.hidden = true;
+        success.hidden = false;
+        success.classList.add('visible');
+      }, 420);
+    } else {
+      error.hidden = false;
+      btn.textContent = 'Register Attendance ✶';
+      btn.disabled = false;
+    }
+  } catch {
+    error.hidden = false;
+    btn.textContent = 'Register Attendance ✶';
+    btn.disabled = false;
+  }
+});
+
 /* ── Scroll reveal ────────────────────────────── */
 function observeReveal() {
   const io = new IntersectionObserver((entries) => {
