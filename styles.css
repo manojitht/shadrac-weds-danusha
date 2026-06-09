@@ -32,16 +32,19 @@ body {
 #curtain-overlay {
   position: fixed; inset: 0; z-index: 9999;
   display: flex; align-items: center; justify-content: center;
+  perspective: 1600px;
 }
 
 .curtain-panel {
   position: absolute; top: 0; width: 50.5%; height: 100%;
-  transition: transform 1.6s cubic-bezier(0.76, 0, 0.24, 1);
+  transition: transform 1.7s cubic-bezier(0.65, 0, 0.25, 1);
   will-change: transform;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
 }
 
-.curtain-left  { left: 0;  background: linear-gradient(160deg, var(--curtain-pink-a) 0%, var(--curtain-pink-b) 55%, var(--curtain-pink-a) 100%); }
-.curtain-right { right: 0; background: linear-gradient(200deg, var(--curtain-pink-a) 0%, var(--curtain-pink-b) 55%, var(--curtain-pink-a) 100%); }
+.curtain-left  { left: 0;  transform-origin: left center;  background: linear-gradient(160deg, var(--curtain-pink-a) 0%, var(--curtain-pink-b) 55%, var(--curtain-pink-a) 100%); }
+.curtain-right { right: 0; transform-origin: right center; background: linear-gradient(200deg, var(--curtain-pink-a) 0%, var(--curtain-pink-b) 55%, var(--curtain-pink-a) 100%); }
 
 /* fabric fold lines */
 .curtain-left::before, .curtain-right::before {
@@ -56,6 +59,17 @@ body {
 .curtain-left::after  { content: ''; position: absolute; right: 0; top: 0; width: 60px; height: 100%; background: linear-gradient(to right, transparent, rgba(150,50,80,0.22)); }
 .curtain-right::after { content: ''; position: absolute; left:  0; top: 0; width: 60px; height: 100%; background: linear-gradient(to left,  transparent, rgba(150,50,80,0.22)); }
 
+/* floral ornaments */
+.curtain-floral {
+  position: absolute; pointer-events: none;
+  width: 130px; height: 200px;
+  opacity: 0.75;
+}
+.curtain-left  .cf-top    { top: 0;    right: 18px; }
+.curtain-left  .cf-bottom { bottom: 0; right: 18px; transform: scaleY(-1); }
+.curtain-right .cf-top    { top: 0;    left: 18px;  transform: scaleX(-1); }
+.curtain-right .cf-bottom { bottom: 0; left: 18px;  transform: scale(-1,-1); }
+
 /* rose hem at bottom */
 .curtain-hem {
   position: absolute; bottom: 0; left: 0; right: 0; height: 5px;
@@ -68,9 +82,9 @@ body {
   background: linear-gradient(90deg, transparent, var(--rose), var(--blush), var(--rose), transparent);
 }
 
-/* open state */
-#curtain-overlay.opening .curtain-left  { transform: translateX(-101%); }
-#curtain-overlay.opening .curtain-right { transform: translateX(101%); }
+/* open state — doors swing on their hinges */
+#curtain-overlay.opening .curtain-left  { transform: rotateY(-108deg); }
+#curtain-overlay.opening .curtain-right { transform: rotateY(108deg); }
 #curtain-overlay.opening .curtain-center-content { opacity: 0; transform: scale(0.85); }
 #curtain-overlay.gone { display: none; }
 
